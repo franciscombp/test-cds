@@ -1,30 +1,23 @@
-import { calculateCDSScore, getInterpretation, CDS_QUESTIONS } from '../data/cdsTest'
+import { calculateCDSScore, getInterpretation } from '../data/cdsTest'
 import { downloadPDF, downloadCSV } from '../utils/exportUtils'
 
-export default function ResultsScreen({ childName, answers, onRestart }) {
+export default function ResultsScreen({ childData, answers, onRestart }) {
   const score = calculateCDSScore(answers)
   const interpretation = getInterpretation(score)
 
   const handleDownloadPDF = () => {
-    downloadPDF(childName, score, interpretation, answers)
+    downloadPDF(childData.name, score, interpretation, answers)
   }
 
   const handleDownloadCSV = () => {
-    downloadCSV(childName, score, interpretation, answers)
-  }
-
-  const getBaremoColor = (score) => {
-    if (score <= 110) return { bg: 'bg-gradient-to-r from-green-400 to-emerald-500', text: 'text-white' }
-    if (score <= 150) return { bg: 'bg-gradient-to-r from-yellow-400 to-amber-500', text: 'text-white' }
-    if (score <= 200) return { bg: 'bg-gradient-to-r from-orange-400 to-red-500', text: 'text-white' }
-    return { bg: 'bg-gradient-to-r from-red-500 to-red-700', text: 'text-white' }
+    downloadCSV(childData.name, score, interpretation, answers)
   }
 
   const baremosData = [
-    { range: '66-110', category: 'Sin depresión o depresión muy leve', color: 'from-green-400 to-emerald-500', icon: '✓' },
-    { range: '111-150', category: 'Depresión leve', color: 'from-yellow-400 to-amber-500', icon: '⚠' },
-    { range: '151-200', category: 'Depresión moderada', color: 'from-orange-400 to-red-500', icon: '⚠' },
-    { range: '201-330', category: 'Depresión severa', color: 'from-red-500 to-red-700', icon: '⚠' }
+    { range: '66-110', category: 'Sin depresión o muy leve', severity: 'normal' },
+    { range: '111-150', category: 'Depresión leve', severity: 'mild' },
+    { range: '151-200', category: 'Depresión moderada', severity: 'moderate' },
+    { range: '201-330', category: 'Depresión severa', severity: 'severe' }
   ]
 
   const currentBaremo = baremosData.find(b => {
@@ -32,130 +25,137 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
     return score >= min && score <= max
   })
 
+  const getSeverityStyle = (severity) => {
+    const styles = {
+      normal: 'bg-white border-gray-200',
+      mild: 'bg-gray-100 border-gray-300',
+      moderate: 'bg-gray-200 border-gray-400',
+      severe: 'bg-gray-900 text-white border-gray-900'
+    }
+    return styles[severity] || styles.normal
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-white px-4 py-8 md:py-12">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8 pb-6 border-b border-gray-200">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Resultados</h1>
-          <p className="text-xl text-gray-600">Evaluación de {childName}</p>
+        <div className="text-center mb-12">
+          <p className="text-sm text-gray-500 mb-2 font-medium">RESULTADOS DE LA EVALUACIÓN</p>
+          <h1 className="text-4xl md:text-5xl font-light text-gray-900 tracking-tight mb-3">
+            {childData.name}
+          </h1>
+          <p className="text-sm text-gray-500">
+            {childData.age} años · {childData.sex === 'M' ? 'Masculino' : 'Femenino'}
+          </p>
         </div>
 
-        {/* Main Score Card */}
-        <div className="bg-white rounded-lg p-8 md:p-10 mb-6 border border-gray-200">
-          <div className="text-center">
-            <p className="text-gray-600 text-lg mb-4 font-semibold">Puntaje Total Obtenido</p>
-            <div className="inline-block mb-6">
-              <span className="text-7xl md:text-8xl font-bold text-gray-900">{score}</span>
-              <span className="text-2xl text-gray-600 ml-2">/ 330</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{interpretation.category}</h2>
-            <p className="text-gray-700 text-lg leading-relaxed">{interpretation.description}</p>
+        {/* Score Display - Minimal */}
+        <div className="mb-12 py-12 text-center border-y border-gray-100">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-4 font-medium">Puntaje Total</p>
+          <div className="flex items-baseline justify-center gap-2 mb-4">
+            <span className="text-6xl md:text-7xl font-light text-gray-900">{score}</span>
+            <span className="text-2xl text-gray-500 font-light">/ 330</span>
           </div>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">
+            {interpretation.category}
+          </h2>
+          <p className="text-sm text-gray-600 leading-relaxed max-w-lg mx-auto">
+            {interpretation.description}
+          </p>
         </div>
 
-        {/* Baremos Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {baremosData.map((baremo, index) => (
-            <div
-              key={index}
-              className={`rounded-lg p-6 border transition ${
-                currentBaremo.range === baremo.range
-                  ? 'bg-gray-900 text-white border-gray-900'
-                  : 'bg-white border-gray-200 text-gray-900'
-              }`}
-            >
-              <div className={`text-3xl mb-2 ${currentBaremo.range === baremo.range ? 'text-white' : 'text-gray-600'}`}>
-                {baremo.icon}
-              </div>
-              <p className={`text-sm font-bold ${currentBaremo.range === baremo.range ? 'text-gray-300' : 'text-gray-600'}`}>
-                Puntaje: {baremo.range}
-              </p>
-              <p className={`text-lg font-bold ${currentBaremo.range === baremo.range ? 'text-white' : 'text-gray-900'}`}>
-                {baremo.category}
-              </p>
-              {currentBaremo.range === baremo.range && (
-                <div className="mt-3 pt-3 border-t border-gray-700">
-                  <p className="text-sm font-semibold text-white">✓ TU RESULTADO</p>
+        {/* Baremos Reference */}
+        <div className="mb-12">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-6 font-medium">Escala de Referencia</p>
+          <div className="space-y-3">
+            {baremosData.map((baremo, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg border transition ${
+                  currentBaremo.range === baremo.range
+                    ? 'bg-gray-900 text-white border-gray-900 ring-2 ring-offset-2 ring-gray-900'
+                    : getSeverityStyle(baremo.severity)
+                }`}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className={`text-xs font-medium mb-1 ${
+                      currentBaremo.range === baremo.range ? 'text-gray-300' : 'text-gray-500'
+                    }`}>
+                      {baremo.range} puntos
+                    </p>
+                    <p className={`text-sm font-medium ${
+                      currentBaremo.range === baremo.range ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {baremo.category}
+                    </p>
+                  </div>
+                  {currentBaremo.range === baremo.range && (
+                    <span className="text-sm font-medium">✓ Resultado</span>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Detailed Interpretation */}
-        <div className="bg-white rounded-lg p-6 md:p-8 mb-8 border border-gray-200">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Interpretación Detallada</h3>
-
-          <div className="space-y-6">
-            {/* Interpretation Info */}
-            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
-              <p className="text-gray-700 leading-relaxed">
-                <strong className="text-gray-900 text-lg">Categoría Obtenida:</strong><br/>
-                {interpretation.category} - {interpretation.description}
-              </p>
-            </div>
-
-            {/* Score Analysis */}
-            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
-              <p className="text-gray-700 leading-relaxed">
-                <strong className="text-gray-900 text-lg">Análisis del Puntaje:</strong><br/>
-                El niño/a obtuvo un puntaje de <strong className="text-gray-900 text-xl">{score}</strong> puntos de 330 posibles,
-                lo que sitúa el resultado en la categoría de <strong className="text-gray-900">{interpretation.category}</strong>.
-                {score <= 110 && ' No presenta síntomas significativos de depresión.'}
-                {score > 110 && score <= 150 && ' Se recomienda seguimiento profesional.'}
-                {score > 150 && score <= 200 && ' Se recomienda intervención profesional inmediata.'}
-                {score > 200 && ' Requiere atención profesional especializada urgente.'}
-              </p>
-            </div>
-
-            {/* Manual Reference */}
-            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
-              <p className="text-gray-700 text-sm leading-relaxed">
-                <strong className="text-gray-900">Referencia:</strong> Escala de Depresión para Niños (CDS) de M. Lang y M. Tisher<br/>
-                <strong className="text-gray-900">Rango de Puntaje:</strong> 66 (mínimo) a 330 (máximo)<br/>
-                <strong className="text-gray-900">Escala de Respuesta:</strong> 5 puntos (1: Muy en desacuerdo hasta 5: Muy de acuerdo)
-              </p>
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Recommendations */}
-        <div className="bg-amber-50 rounded-lg p-6 border-l-4 border-amber-400 mb-8">
-          <p className="text-gray-700 leading-relaxed">
-            <strong className="text-gray-900 text-lg">⚠ Recomendación Importante:</strong><br/>
-            Este test es una herramienta de screening psicológico. Los resultados deben ser interpretados por un profesional
-            de la salud mental especializado. En caso de sospechar depresión o ideación suicida, se recomienda derivación
-            inmediata a un psicólogo, psiquiatra o servicio de emergencias psicológicas.
+        {/* Analysis */}
+        <div className="mb-12 space-y-6">
+          <div className="p-6 bg-gray-50 rounded-lg">
+            <p className="text-xs text-gray-500 uppercase tracking-widest font-medium mb-2">Análisis</p>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              El puntaje de <strong>{score}</strong> puntos indica{' '}
+              {score <= 110 && 'ausencia de síntomas significativos de depresión.'}
+              {score > 110 && score <= 150 && 'síntomas leves que requieren seguimiento profesional.'}
+              {score > 150 && score <= 200 && 'síntomas moderados que requieren intervención profesional.'}
+              {score > 200 && 'síntomas severos que requieren atención especializada urgente.'}
+            </p>
+          </div>
+
+          <div className="p-6 bg-gray-50 rounded-lg">
+            <p className="text-xs text-gray-500 uppercase tracking-widest font-medium mb-2">Referencia</p>
+            <p className="text-xs text-gray-600 leading-relaxed space-y-1">
+              <div>Escala de Depresión para Niños (CDS) — Lang & Tisher</div>
+              <div>Rango: 66 a 330 puntos · Escala de respuesta: 1 a 5 puntos</div>
+            </p>
+          </div>
+        </div>
+
+        {/* Warning */}
+        <div className="mb-12 p-6 bg-red-50 rounded-lg border border-red-100">
+          <p className="text-xs text-red-700 uppercase tracking-widest font-medium mb-2">⚠ Importante</p>
+          <p className="text-sm text-red-900 leading-relaxed">
+            Este test es una herramienta de screening. Los resultados deben ser interpretados por un profesional de salud mental. En caso de sospechar depresión o ideación suicida, se recomienda derivación inmediata a un especialista o servicio de emergencias.
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="space-y-3 mb-6">
           <button
             onClick={handleDownloadPDF}
-            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
+            className="w-full px-4 py-3 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 rounded-lg transition"
           >
-            📄 PDF
+            Descargar PDF
           </button>
           <button
             onClick={handleDownloadCSV}
-            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
+            className="w-full px-4 py-3 bg-gray-100 text-gray-900 text-sm font-medium hover:bg-gray-200 rounded-lg transition border border-gray-200"
           >
-            📊 CSV
+            Descargar CSV
           </button>
           <button
             onClick={onRestart}
-            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
+            className="w-full px-4 py-3 text-gray-900 text-sm font-medium hover:bg-gray-50 rounded-lg transition"
           >
-            ↻ Nuevo Test
+            Realizar Nuevo Test
           </button>
         </div>
 
         {/* Footer */}
-        <div className="text-center text-gray-500 text-sm">
-          <p>Test CDS - Escala de Depresión para Niños (Lang & Tisher)</p>
-          <p className="text-gray-600 mt-2">{new Date().toLocaleDateString('es-ES')}</p>
+        <div className="text-center pt-8 border-t border-gray-100">
+          <p className="text-xs text-gray-400">
+            {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
         </div>
       </div>
     </div>
