@@ -33,24 +33,24 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 px-4 py-6">
+    <div className="min-h-screen bg-gray-50 px-4 py-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Resultados</h1>
-          <p className="text-xl text-blue-200">Evaluación de {childName}</p>
+        <div className="text-center mb-8 pb-6 border-b border-gray-200">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Resultados</h1>
+          <p className="text-xl text-gray-600">Evaluación de {childName}</p>
         </div>
 
         {/* Main Score Card */}
-        <div className={`${currentBaremo.bg} rounded-3xl shadow-2xl p-8 md:p-10 mb-6 transform transition`}>
+        <div className="bg-white rounded-lg p-8 md:p-10 mb-6 border border-gray-200">
           <div className="text-center">
-            <p className="text-blue-50 text-lg mb-4 font-semibold">Puntaje Total Obtenido</p>
+            <p className="text-gray-600 text-lg mb-4 font-semibold">Puntaje Total Obtenido</p>
             <div className="inline-block mb-6">
-              <span className="text-7xl md:text-8xl font-bold text-white drop-shadow-lg">{score}</span>
-              <span className="text-2xl text-blue-50 ml-2">/ 330</span>
+              <span className="text-7xl md:text-8xl font-bold text-gray-900">{score}</span>
+              <span className="text-2xl text-gray-600 ml-2">/ 330</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{interpretation.category}</h2>
-            <p className="text-blue-50 text-lg leading-relaxed">{interpretation.description}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{interpretation.category}</h2>
+            <p className="text-gray-700 text-lg leading-relaxed">{interpretation.description}</p>
           </div>
         </div>
 
@@ -59,23 +59,23 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
           {baremosData.map((baremo, index) => (
             <div
               key={index}
-              className={`rounded-2xl p-6 border-2 transition transform ${
+              className={`rounded-lg p-6 border transition ${
                 currentBaremo.range === baremo.range
-                  ? `bg-gradient-to-br ${baremo.color} border-white shadow-2xl scale-105`
-                  : 'bg-white bg-opacity-10 border-blue-300 border-opacity-30'
+                  ? 'bg-gray-900 text-white border-gray-900'
+                  : 'bg-white border-gray-200 text-gray-900'
               }`}
             >
-              <div className={`text-3xl mb-2 ${currentBaremo.range === baremo.range ? 'text-white' : 'text-blue-300'}`}>
+              <div className={`text-3xl mb-2 ${currentBaremo.range === baremo.range ? 'text-white' : 'text-gray-600'}`}>
                 {baremo.icon}
               </div>
-              <p className={`text-sm font-bold ${currentBaremo.range === baremo.range ? 'text-white' : 'text-blue-200'}`}>
+              <p className={`text-sm font-bold ${currentBaremo.range === baremo.range ? 'text-gray-300' : 'text-gray-600'}`}>
                 Puntaje: {baremo.range}
               </p>
-              <p className={`text-lg font-bold ${currentBaremo.range === baremo.range ? 'text-white' : 'text-blue-100'}`}>
+              <p className={`text-lg font-bold ${currentBaremo.range === baremo.range ? 'text-white' : 'text-gray-900'}`}>
                 {baremo.category}
               </p>
               {currentBaremo.range === baremo.range && (
-                <div className="mt-3 pt-3 border-t border-white border-opacity-30">
+                <div className="mt-3 pt-3 border-t border-gray-700">
                   <p className="text-sm font-semibold text-white">✓ TU RESULTADO</p>
                 </div>
               )}
@@ -84,24 +84,24 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
         </div>
 
         {/* Detailed Interpretation */}
-        <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 border border-blue-300 border-opacity-30">
-          <h3 className="text-2xl font-bold text-white mb-6">📊 Interpretación Detallada</h3>
+        <div className="bg-white rounded-lg p-6 md:p-8 mb-8 border border-gray-200">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Interpretación Detallada</h3>
 
           <div className="space-y-6">
             {/* Interpretation Info */}
-            <div className="bg-white bg-opacity-5 rounded-xl p-5 border-l-4 border-blue-400">
-              <p className="text-blue-50 leading-relaxed">
-                <strong className="text-white text-lg">Categoría Obtenida:</strong><br/>
+            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
+              <p className="text-gray-700 leading-relaxed">
+                <strong className="text-gray-900 text-lg">Categoría Obtenida:</strong><br/>
                 {interpretation.category} - {interpretation.description}
               </p>
             </div>
 
             {/* Score Analysis */}
-            <div className="bg-white bg-opacity-5 rounded-xl p-5 border-l-4 border-indigo-400">
-              <p className="text-blue-50 leading-relaxed">
-                <strong className="text-white text-lg">Análisis del Puntaje:</strong><br/>
-                El niño/a obtuvo un puntaje de <strong className="text-white text-xl">{score}</strong> puntos de 330 posibles,
-                lo que sitúa el resultado en la categoría de <strong className="text-white">{interpretation.category}</strong>.
+            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
+              <p className="text-gray-700 leading-relaxed">
+                <strong className="text-gray-900 text-lg">Análisis del Puntaje:</strong><br/>
+                El niño/a obtuvo un puntaje de <strong className="text-gray-900 text-xl">{score}</strong> puntos de 330 posibles,
+                lo que sitúa el resultado en la categoría de <strong className="text-gray-900">{interpretation.category}</strong>.
                 {score <= 110 && ' No presenta síntomas significativos de depresión.'}
                 {score > 110 && score <= 150 && ' Se recomienda seguimiento profesional.'}
                 {score > 150 && score <= 200 && ' Se recomienda intervención profesional inmediata.'}
@@ -110,20 +110,20 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
             </div>
 
             {/* Manual Reference */}
-            <div className="bg-white bg-opacity-5 rounded-xl p-5 border-l-4 border-purple-400">
-              <p className="text-blue-50 text-sm leading-relaxed">
-                <strong className="text-white">Referencia:</strong> Escala de Depresión para Niños (CDS) de M. Lang y M. Tisher<br/>
-                <strong className="text-white">Rango de Puntaje:</strong> 66 (mínimo) a 330 (máximo)<br/>
-                <strong className="text-white">Escala de Respuesta:</strong> 5 puntos (1: Muy en desacuerdo hasta 5: Muy de acuerdo)
+            <div className="bg-gray-50 rounded-lg p-5 border-l-4 border-gray-400">
+              <p className="text-gray-700 text-sm leading-relaxed">
+                <strong className="text-gray-900">Referencia:</strong> Escala de Depresión para Niños (CDS) de M. Lang y M. Tisher<br/>
+                <strong className="text-gray-900">Rango de Puntaje:</strong> 66 (mínimo) a 330 (máximo)<br/>
+                <strong className="text-gray-900">Escala de Respuesta:</strong> 5 puntos (1: Muy en desacuerdo hasta 5: Muy de acuerdo)
               </p>
             </div>
           </div>
         </div>
 
         {/* Recommendations */}
-        <div className="bg-yellow-400 bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-yellow-400 mb-8">
-          <p className="text-yellow-50 leading-relaxed">
-            <strong className="text-yellow-100 text-lg">⚠ Recomendación Importante:</strong><br/>
+        <div className="bg-amber-50 rounded-lg p-6 border-l-4 border-amber-400 mb-8">
+          <p className="text-gray-700 leading-relaxed">
+            <strong className="text-gray-900 text-lg">⚠ Recomendación Importante:</strong><br/>
             Este test es una herramienta de screening psicológico. Los resultados deben ser interpretados por un profesional
             de la salud mental especializado. En caso de sospechar depresión o ideación suicida, se recomienda derivación
             inmediata a un psicólogo, psiquiatra o servicio de emergencias psicológicas.
@@ -134,28 +134,28 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <button
             onClick={handleDownloadPDF}
-            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 md:py-4 px-6 rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg"
+            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
           >
             📄 PDF
           </button>
           <button
             onClick={handleDownloadCSV}
-            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 md:py-4 px-6 rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg"
+            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
           >
             📊 CSV
           </button>
           <button
             onClick={onRestart}
-            className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 md:py-4 px-6 rounded-xl transition transform hover:scale-105 active:scale-95 shadow-lg"
+            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 md:py-4 px-6 rounded-lg transition border border-gray-900"
           >
             ↻ Nuevo Test
           </button>
         </div>
 
         {/* Footer */}
-        <div className="text-center text-blue-200 text-sm">
+        <div className="text-center text-gray-500 text-sm">
           <p>Test CDS - Escala de Depresión para Niños (Lang & Tisher)</p>
-          <p className="text-blue-300 mt-2">{new Date().toLocaleDateString('es-ES')}</p>
+          <p className="text-gray-600 mt-2">{new Date().toLocaleDateString('es-ES')}</p>
         </div>
       </div>
     </div>

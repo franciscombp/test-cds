@@ -14,31 +14,25 @@ export default function NameScreen({ onSubmit }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center px-4 py-6">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-6">
       <div className="w-full max-w-md">
         {/* Main Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 mb-6">
-          {/* Logo/Icon */}
-          <div className="text-center mb-8">
-            <div className="inline-block bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-4 mb-4">
-              <span className="text-4xl">📋</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-2">
+        <div className="bg-white rounded-lg shadow p-8 mb-6 border border-gray-200">
+          {/* Header */}
+          <div className="text-center mb-8 pb-6 border-b border-gray-200">
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">
               Test CDS
             </h1>
-            <p className="text-gray-600 text-lg font-semibold">
-              Escala de Depresión para Niños
-            </p>
-            <p className="text-gray-500 text-sm mt-1">
-              Lang & Tisher
+            <p className="text-gray-600 text-sm">
+              Escala de Depresión para Niños (Lang & Tisher)
             </p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-base font-bold text-gray-800 mb-3">
-                👤 Nombre del niño/a
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Nombre del niño/a
               </label>
               <input
                 type="text"
@@ -48,50 +42,49 @@ export default function NameScreen({ onSubmit }) {
                   setError('')
                 }}
                 placeholder="Ej: Juan Pérez"
-                className="w-full px-5 py-3 text-lg border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition bg-gray-50"
+                className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition bg-white"
                 autoFocus
               />
               {error && (
-                <p className="text-red-500 text-sm mt-2 font-semibold">✗ {error}</p>
+                <p className="text-red-600 text-xs mt-1.5 font-medium">{error}</p>
               )}
             </div>
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 md:py-4 px-6 rounded-xl text-lg transition transform hover:scale-105 active:scale-95 shadow-lg"
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 px-4 rounded text-sm transition"
             >
-              ▶ Comenzar Test
+              Comenzar Test
             </button>
           </form>
         </div>
 
         {/* Instructions Card */}
-        <div className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-blue-600">
-          <h3 className="text-lg font-bold text-gray-800 mb-3">📌 Instrucciones</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+        <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4">Instrucciones</h3>
+          <ul className="space-y-2 text-xs text-gray-600">
             <li className="flex items-start">
-              <span className="text-blue-600 font-bold mr-2">•</span>
-              <span>El test consta de <strong>66 preguntas</strong> sobre los sentimientos del niño/a</span>
+              <span className="font-bold mr-3 text-gray-400">•</span>
+              <span><strong>66 preguntas</strong> sobre sentimientos y emociones</span>
             </li>
             <li className="flex items-start">
-              <span className="text-blue-600 font-bold mr-2">•</span>
-              <span>Escala: <strong>1 a 5</strong> (Muy en desacuerdo a Muy de acuerdo)</span>
+              <span className="font-bold mr-3 text-gray-400">•</span>
+              <span>Escala: 1 a 5 puntos por respuesta</span>
             </li>
             <li className="flex items-start">
-              <span className="text-blue-600 font-bold mr-2">•</span>
-              <span>Tiempo estimado: <strong>5-10 minutos</strong></span>
+              <span className="font-bold mr-3 text-gray-400">•</span>
+              <span>Duración aproximada: 5-10 minutos</span>
             </li>
             <li className="flex items-start">
-              <span className="text-blue-600 font-bold mr-2">•</span>
-              <span>Puedes navegar hacia <strong>atrás y adelante</strong></span>
+              <span className="font-bold mr-3 text-gray-400">•</span>
+              <span>Navegación libre entre preguntas</span>
             </li>
           </ul>
         </div>
 
-        {/* Footer Info */}
-        <div className="text-center mt-6 text-blue-100 text-sm">
-          <p>Herramienta de screening psicológico</p>
-          <p className="text-blue-200 mt-1">Para uso profesional</p>
+        {/* Footer */}
+        <div className="text-center mt-6 text-xs text-gray-500">
+          <p>Herramienta clínica de screening psicológico</p>
         </div>
       </div>
     </div>
