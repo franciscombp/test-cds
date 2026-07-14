@@ -39,7 +39,7 @@ export default function TestForm({ childName, onComplete }) {
         <div className="mb-8">
           <div className="text-center mb-4">
             <p className="text-lg text-indigo-600 font-semibold">
-              Test para {childName}
+              Test CDS - {childName}
             </p>
             <p className="text-sm text-gray-600">
               Pregunta {currentQuestion + 1} de {CDS_QUESTIONS.length}

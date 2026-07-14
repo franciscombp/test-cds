@@ -98,7 +98,7 @@ export function downloadPDF(childName, score, interpretation, answers) {
         </div>
 
         <div class="score-box">
-          Puntaje Total: ${score} / 54
+          Puntaje Total: ${score} / 330
         </div>
 
         <div class="interpretation">
@@ -107,12 +107,12 @@ export function downloadPDF(childName, score, interpretation, answers) {
         </div>
 
         <div class="range-info">
-          <h4 style="margin-top: 0;">Rango de Puntajes:</h4>
+          <h4 style="margin-top: 0;">Rango de Puntajes (según Manual Lang & Tisher):</h4>
           <ul style="margin: 10px 0; padding-left: 20px;">
-            <li><strong>0-15:</strong> Sin depresión</li>
-            <li><strong>16-25:</strong> Depresión leve</li>
-            <li><strong>26-40:</strong> Depresión moderada</li>
-            <li><strong>41-54:</strong> Depresión severa</li>
+            <li><strong>66-110:</strong> Sin depresión o depresión muy leve</li>
+            <li><strong>111-150:</strong> Depresión leve</li>
+            <li><strong>151-200:</strong> Depresión moderada</li>
+            <li><strong>201-330:</strong> Depresión severa</li>
           </ul>
         </div>
 
@@ -175,11 +175,11 @@ export function downloadCSV(childName, score, interpretation, answers) {
   });
 
   csvContent += `\n`;
-  csvContent += `Rango de Puntajes,\n`;
-  csvContent += `0-15,Sin depresión\n`;
-  csvContent += `16-25,Depresión leve\n`;
-  csvContent += `26-40,Depresión moderada\n`;
-  csvContent += `41-54,Depresión severa\n`;
+  csvContent += `Rango de Puntajes (Lang & Tisher),\n`;
+  csvContent += `66-110,Sin depresión o depresión muy leve\n`;
+  csvContent += `111-150,Depresión leve\n`;
+  csvContent += `151-200,Depresión moderada\n`;
+  csvContent += `201-330,Depresión severa\n`;
   csvContent += `\n`;
   csvContent += `Fecha,${new Date().toLocaleDateString('es-ES')}\n`;
   csvContent += `Hora,${new Date().toLocaleTimeString('es-ES')}\n`;

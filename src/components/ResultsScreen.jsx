@@ -42,13 +42,14 @@ export default function ResultsScreen({ childName, answers, onRestart }) {
 
           {/* Score Range Reference */}
           <div className="bg-gray-50 rounded-lg p-6 mb-8">
-            <h4 className="font-semibold text-gray-800 mb-4">Rango de Puntajes:</h4>
+            <h4 className="font-semibold text-gray-800 mb-4">Rango de Puntajes (según Manual Lang & Tisher):</h4>
             <div className="space-y-2 text-sm text-gray-700">
-              <p>• <strong>0-15:</strong> Sin depresión</p>
-              <p>• <strong>16-25:</strong> Depresión leve</p>
-              <p>• <strong>26-40:</strong> Depresión moderada</p>
-              <p>• <strong>41-54:</strong> Depresión severa</p>
+              <p>• <strong>66-110:</strong> Sin depresión o depresión muy leve</p>
+              <p>• <strong>111-150:</strong> Depresión leve</p>
+              <p>• <strong>151-200:</strong> Depresión moderada</p>
+              <p>• <strong>201-330:</strong> Depresión severa</p>
             </div>
+            <p className="text-xs text-gray-600 mt-4">Puntaje mínimo: 66 | Puntaje máximo: 330</p>
           </div>
 
           {/* Detailed Answers */}
