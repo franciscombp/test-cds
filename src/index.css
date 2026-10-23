@@ -10,3 +10,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/*
+ * Sin zoom por doble toque: al tocar rápido el mismo botón (las respuestas,
+ * Siguiente) el navegador del teléfono acercaba la página y costaba volver.
+ * manipulation quita ese zoom pero deja el zoom con dos dedos (accesibilidad:
+ * nada de user-scalable=no en el viewport). :where() tiene especificidad cero,
+ * así que cualquier elemento con touch-action: none conserva el suyo.
+ */
+:where(*) {
+  touch-action: manipulation;
+}
