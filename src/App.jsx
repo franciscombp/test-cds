@@ -5,11 +5,11 @@ import ResultsScreen from './components/ResultsScreen'
 
 export default function App() {
   const [screen, setScreen] = useState('name')
-  const [childName, setChildName] = useState('')
+  const [childData, setChildData] = useState({ name: '', age: null, sex: '' })
   const [answers, setAnswers] = useState({})
 
-  const handleNameSubmit = (name) => {
-    setChildName(name)
+  const handleNameSubmit = (data) => {
+    setChildData(data)
     setScreen('test')
   }
 
@@ -19,22 +19,22 @@ export default function App() {
   }
 
   const handleRestart = () => {
-    setChildName('')
+    setChildData({ name: '', age: null, sex: '' })
     setAnswers({})
     setScreen('name')
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-white">
       {screen === 'name' && (
         <NameScreen onSubmit={handleNameSubmit} />
       )}
       {screen === 'test' && (
-        <TestForm childName={childName} onComplete={handleTestComplete} />
+        <TestForm childData={childData} onComplete={handleTestComplete} />
       )}
       {screen === 'results' && (
         <ResultsScreen
-          childName={childName}
+          childData={childData}
           answers={answers}
           onRestart={handleRestart}
         />
